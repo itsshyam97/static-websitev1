@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/itsshyam97/linux-devops-journey.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'docker build -t static-website:v2 linux-devops-journey/project/Docker/website/.'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                docker rm -f mywebsite || true
+                docker run -d --name static-website -p 8090:80 static-website:v2
+                '''
+            }
+        }
+
+    }
+}
