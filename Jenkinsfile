@@ -51,6 +51,15 @@ pipeline {
                 '''
             }
         }
+        
+        stage('Cleanup') {
+            steps {
+                sh '''
+                docker image prune -f
+                docker builder prune -f
+                '''
+            }
+        }
 
         stage('Deploy') {
             steps {
