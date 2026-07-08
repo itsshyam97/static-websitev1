@@ -4,7 +4,9 @@ pipeline {
 
     environment {
         IMAGE_NAME = "shyamprakashs/personal-website"
+        CONTAINER_NAME = "personal-website"
         IMAGE_TAG  = "${BUILD_NUMBER}"
+        PORT = "8090"
     }
 
     stages {
@@ -54,12 +56,12 @@ pipeline {
             steps {
 
                 sh '''
-                docker stop personal-website || true
-                docker rm personal-website || true
+                docker stop $CONTAINER_NAME || true
+                docker rm $CONTAINER_NAME || true
 
                 docker run -d \
-                    --name personal-website \
-                    -p 8090:80 \
+                    --name $CONTAINER_NAME \
+                    -p $PORT:80 \
                     $IMAGE_NAME:latest
                 '''
             }
@@ -73,7 +75,7 @@ pipeline {
 
                 sleep 5
 
-                docker exec personal-website \
+                docker exec $CONTAINER_NAME \
                 curl -I http://localhost
 
                 '''
