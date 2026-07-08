@@ -33,7 +33,7 @@ pipeline {
 
         stage('Verify Deployment') {
             steps {
-                sh 'docker exec personal-website curl http://localhost:8090'
+                sh 'docker exec personal-website curl http://localhost'
             }
         }
     }
